@@ -1,3 +1,6 @@
+const age = document.querySelector("#age");
+const height = document.querySelector("#height");
+const weight = document.querySelector("#weight");
 const inputText = document.querySelectorAll('input[type="text"]')
 const calcButton = document.querySelector(".form__submit-button");
 const resetButton = document.querySelector(".form__reset-button");
@@ -15,7 +18,7 @@ let weightSupport = 0,
 let activityRatio = 1.2;
 let gender = "male";
 
-let blankFields = new Set([0, 1, 2]);
+let blankFields = new Set();
 
 const activityList = {
 	'activity-minimal':  1.2,
@@ -26,8 +29,8 @@ const activityList = {
 }
 
 const genderСoefficient = {
-	'female': 5,
-	'male': -161
+	'female': -161,
+	'male': 5
 }
 
 const updateButtonsStatus = () => {
@@ -43,6 +46,7 @@ const setDefaultParams = () => {
 };
 
 inputText.forEach((input, index) => {
+	if (input.value == 0) blankFields.add(index);
 	input.addEventListener("change", () => {
 		if (input.value == 0) {
 			blankFields.add(index);
