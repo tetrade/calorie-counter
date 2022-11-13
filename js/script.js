@@ -59,7 +59,10 @@ inputText.forEach((input, index) => {
 
 genders.forEach(genderName => genderName.addEventListener("change", () => gender = genderName.value));
 
-allActivities.forEach(activity => activity.addEventListener("change", () => activityRatio = activityList[activity.id]));
+allActivities.forEach(activity => {
+  if (activity.checked) activityRatio = activityList[activity.id];
+  activity.addEventListener("change", () => activityRatio = activityList[activity.id])
+});
 
 calcButton.addEventListener("click", () => {
 	weightSupport = ((10 * weight.value) + (6.25 * height.value) - (5 * age.value) + genderСoefficient[gender]) * activityRatio;
