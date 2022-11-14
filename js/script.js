@@ -15,9 +15,6 @@ let weightSupport = 0,
 	weightLoss = 0,
 	weightGain = 0;
 
-let activityRatio = 1.2;
-let gender = "male";
-
 let blankFields = new Set();
 
 const activityList = {
@@ -28,10 +25,13 @@ const activityList = {
 	'activity-maximal': 1.9
 }
 
-const genderСoefficient = {
+const genderСoefficients = {
 	'female': -161,
 	'male': 5
 }
+
+let activityRatio = activityList['activity-minimal'];
+let genderСoefficient = genderСoefficients['male'];
 
 const updateButtonsStatus = () => {
 	resetButton.disabled = blankFields.size === 3;
@@ -39,8 +39,8 @@ const updateButtonsStatus = () => {
 };
 
 const setDefaultParams = () => {
-	activityRatio = 1.2;
-	gender = "male";
+	activityRatio = activityList['activity-minimal'];
+	genderСoefficient = genderСoefficients['male'];
 	[0, 1, 2].forEach(value => blankFields.add(value));
 	updateButtonsStatus();
 };
@@ -57,15 +57,18 @@ inputText.forEach((input, index) => {
 	});
 });
 
-genders.forEach(genderName => genderName.addEventListener("change", () => gender = genderName.value));
+genders.forEach(genderName => {
+	if (genderName.checked) genderСoefficient = genderСoefficients[genderName.value];
+	genderName.addEventListener("change", () => genderСoefficient = genderСoefficients[genderName.value]);
+});
 
 allActivities.forEach(activity => {
   if (activity.checked) activityRatio = activityList[activity.id];
-  activity.addEventListener("change", () => activityRatio = activityList[activity.id])
+  activity.addEventListener("change", () => activityRatio = activityList[activity.id]);
 });
 
 calcButton.addEventListener("click", () => {
-	weightSupport = ((10 * weight.value) + (6.25 * height.value) - (5 * age.value) + genderСoefficient[gender]) * activityRatio;
+	weightSupport = ((10 * weight.value) + (6.25 * height.value) - (5 * age.value) + genderСoefficient) * activityRatio;
 
 	weightLoss = weightSupport - (weightSupport * 0.15);
 	weightGain = weightSupport + (weightSupport * 0.15);
