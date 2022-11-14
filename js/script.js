@@ -39,9 +39,18 @@ const updateButtonsStatus = () => {
 };
 
 const setDefaultParams = () => {
+
 	activityRatio = activityList['activity-minimal'];
 	genderСoefficient = genderСoefficients['male'];
-	[0, 1, 2].forEach(value => blankFields.add(value));
+
+	inputText.forEach((input, index) => {
+		blankFields.add(index);
+		input.value = 0;
+	});
+
+	genders[0].checked = true;
+	allActivities[0].checked = true;
+
 	updateButtonsStatus();
 };
 
